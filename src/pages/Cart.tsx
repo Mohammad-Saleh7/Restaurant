@@ -8,36 +8,30 @@ import {
 } from "@mui/material";
 import { useTranslation } from "react-i18next";
 import React from "react";
-import { useDispatch, useSelector } from "react-redux";
 import { clearCart, removeFromCart } from "../redux/cartSlice";
 import CloseIcon from "@mui/icons-material/Close";
-import type { CartState, CartItem } from "../redux/cartSlice";
 import HeaderMenu from "../components/Headers/HeaderMenu";
-
-// ----------- Types ------------
-interface RootState {
-  cart: CartState;
-}
+import { useAppDispatch, useAppSelector } from "../redux/hooks";
 
 const Cart: React.FC = () => {
   const { t, i18n } = useTranslation();
   const currentLang = i18n.language === "fa" ? "fa" : "en";
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
-  const items = useSelector((state: RootState) => state.cart.items);
+  const items = useAppSelector((state) => state.cart.items);
 
   const toPersianNumber = (num: string | number) =>
     num
       .toString()
       .replace(
         /\d/g,
-        (d) => ["۰", "۱", "۲", "۳", "۴", "۵", "۶", "۷", "۸", "۹"][parseInt(d)]
+        (d) => ["۰", "۱", "۲", "۳", "۴", "۵", "۶", "۷", "۸", "۹"][parseInt(d)],
       );
 
-  const total = items.reduce((sum: number, item: CartItem) => {
-    const numeric = Number(item.price);
-    return sum + numeric * (item.quantity || 1);
-  }, 0);
+  const total = items.reduce(
+    (sum, item) => sum + item.price * item.quantity,
+    0,
+  );
 
   const handleRemove = (id: string) => {
     dispatch(removeFromCart(id));
@@ -122,7 +116,14 @@ const Cart: React.FC = () => {
                     </Typography>
                   </Box>
 
-                  <IconButton onClick={() => handleRemove(item.id)}>
+                  <IconButton
+                    aria-label={
+                      currentLang === "fa"
+                        ? `حذف ${item.nameFa} از سبد خرید`
+                        : `Remove ${item.nameEn} from cart`
+                    }
+                    onClick={() => handleRemove(item.id)}
+                  >
                     <CloseIcon />
                   </IconButton>
                 </Box>

@@ -3,6 +3,7 @@ import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import CssBaseline from "@mui/material/CssBaseline";
 import useScrollTrigger from "@mui/material/useScrollTrigger";
+import type { SxProps, Theme } from "@mui/material/styles";
 import {
   Box,
   Button,
@@ -30,26 +31,34 @@ import { useNavigate } from "react-router-dom";
 import { t } from "i18next";
 import SettingHome from "../settings/SettingsHome";
 
-function ElevationScroll(props: any) {
-  const { children, window: windowProp } = props;
+type ElevationScrollProps = {
+  children: React.ReactElement<{ sx?: SxProps<Theme> }>;
+  window?: () => Window;
+};
+
+function ElevationScroll({
+  children,
+  window: windowProp,
+}: ElevationScrollProps) {
   const trigger = useScrollTrigger({
     disableHysteresis: true,
     threshold: 8,
     target: windowProp ? windowProp() : undefined,
   });
 
-  if (!children) return null;
-
   return React.cloneElement(children, {
     sx: {
-      ...(children.props.sx || {}),
       boxShadow: trigger ? "0 10px 30px rgba(0,0,0,0.25)" : "none",
       transform: "translateY(0)",
     },
   });
 }
 
-export default function HeaderHome(props: any) {
+type HeaderHomeProps = {
+  window?: () => Window;
+};
+
+export default function HeaderHome(props: HeaderHomeProps) {
   const navigate = useNavigate();
   const theme = useTheme();
 
@@ -273,18 +282,72 @@ export default function HeaderHome(props: any) {
       <Box
         sx={{
           position: "relative",
-          minHeight: { xs: "calc(100svh - 64px)", sm: 640, md: 700 },
-          backgroundImage: `url(${bg})`,
-          backgroundSize: "cover",
-          backgroundRepeat: "no-repeat",
-          backgroundPosition: "center",
+          display: "grid",
+          width: "100%",
           overflow: "hidden",
+          isolation: "isolate",
+          bgcolor: "#0b1020",
         }}
       >
+        <Box
+          component="img"
+          src={bg}
+          alt=""
+          aria-hidden
+          sx={{
+            gridArea: "1 / 1",
+            width: "100%",
+            height: "auto",
+            maxHeight: "calc(100svh - 64px)",
+            visibility: "hidden",
+            pointerEvents: "none",
+          }}
+        />
+
+        <Box
+          component="img"
+          src={bg}
+          alt=""
+          aria-hidden
+          sx={{
+            position: "absolute",
+            inset: 0,
+            width: "100%",
+            height: "100%",
+            objectFit: "cover",
+            filter: "blur(28px) brightness(0.7)",
+            transform: "scale(1.15)",
+            zIndex: -4,
+            pointerEvents: "none",
+            userSelect: "none",
+          }}
+        />
+
+        <Box
+          component="img"
+          src={bg}
+          alt=""
+          aria-hidden
+          loading="eager"
+          decoding="async"
+          sx={{
+            position: "absolute",
+            inset: 0,
+            width: "100%",
+            height: "100%",
+            objectFit: "contain",
+            objectPosition: "center",
+            zIndex: -3,
+            pointerEvents: "none",
+            userSelect: "none",
+          }}
+        />
+
         <Box
           sx={{
             position: "absolute",
             inset: 0,
+            zIndex: -2,
             background:
               "linear-gradient(180deg, rgba(11,16,32,0.65) 0%, rgba(11,16,32,0.55) 45%, rgba(11,16,32,0.85) 100%)",
           }}
@@ -294,6 +357,7 @@ export default function HeaderHome(props: any) {
           sx={{
             position: "absolute",
             inset: 0,
+            zIndex: -1,
             background:
               "radial-gradient(1000px 500px at 20% 20%, rgba(124,58,237,0.30), transparent 60%), radial-gradient(900px 500px at 80% 20%, rgba(18, 97, 154, 0.22), transparent 60%)",
             pointerEvents: "none",
@@ -303,11 +367,12 @@ export default function HeaderHome(props: any) {
         <Container
           maxWidth="lg"
           sx={{
+            gridArea: "1 / 1",
             position: "relative",
             zIndex: 1,
-            minHeight: { xs: "calc(100svh - 64px)", sm: 640, md: 700 },
             display: "grid",
             placeItems: "center",
+            minHeight: { xs: 420, sm: 480, md: 560 },
             py: { xs: 5, sm: 8 },
             px: { xs: 2, sm: 2 },
           }}

@@ -4,7 +4,7 @@ import HeaderMenu from "../components/Headers/HeaderMenu";
 import restaurantData from "../data/restaurant.json";
 import MenuCard from "../components/Cards/MenuCard";
 import { useTranslation } from "react-i18next";
-import { useSelector } from "react-redux";
+import { useAppSelector } from "../redux/hooks";
 
 interface MenuItem {
   id: string;
@@ -21,7 +21,7 @@ interface Category {
 }
 
 const MenuPage: React.FC = () => {
-  const search: string = useSelector((state: any) => state.search.value);
+  const search = useAppSelector((state) => state.search.value);
 
   const categories: Category[] = restaurantData.restaurant.menu.categories;
 
@@ -33,7 +33,7 @@ const MenuPage: React.FC = () => {
       .toString()
       .replace(
         /\d/g,
-        (d) => ["۰", "۱", "۲", "۳", "۴", "۵", "۶", "۷", "۸", "۹"][+d]
+        (d) => ["۰", "۱", "۲", "۳", "۴", "۵", "۶", "۷", "۸", "۹"][+d],
       );
 
   const normalizeText = (text: string) =>

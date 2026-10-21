@@ -1,31 +1,108 @@
-# restaurant-uni
+# 🍽️ Restaurant Uni
 
-A restaurant web app built as a university project.
+**Restaurant Uni** is a modern, responsive restaurant web application built with **React**, **TypeScript**, and **Vite**.
 
-Features:
-1-Responsive UI for different screen sizes  
-2-Menu / pages navigation + search experience  
-3-Authentication flow (Sign in / Sign up)  
-4-State management with Redux Toolkit + persisted state  
-5-Light/Dark theme support and UI customization  
-6-Multi-language support using i18next
+Explore the menu, discover delicious dishes, search for your favorite items, manage your shopping cart, and enjoy a personalized experience with multilingual support, dark and light themes, and AI-inspired food recommendations.
 
-Technologies and Libraries:
-1-TypeScript  
-2-React (Vite)  
-3-Material UI (MUI)  
-4-Redux Toolkit + redux-persist  
-5-React Router DOM  
-6-Axios  
-7-i18next
+## ✨ Features
 
-How to Run:
-1-npm install  
-2-npm run dev
+- 🍽️ Interactive restaurant menu
+- 🔍 Menu search
+- 📋 Detailed menu item pages
+- 🛒 Shopping cart
+- 🔐 Sign in & Sign up
+- 🧠 Personalized food recommendations
+- 🎯 Preference-based recommendation system
+- 🌐 English & Persian
+- ↔️ RTL support
+- 🌙 Dark & Light mode
+- 📱 Responsive design
+- ⚡ Client-side navigation
+- 💾 Persistent application state
+- 🎨 Customizable UI experience
 
-Build (Production):
-1-npm run build  
-2-npm run preview
+## 🛠️ Built With
 
-Developed by Mohammad Saleh Abbasi  
-University Project – Restaurant Task
+- **React**
+- **TypeScript**
+- **Vite**
+- **Material UI (MUI)**
+- **Redux Toolkit**
+- **Redux Persist**
+- **React Router**
+- **Axios**
+- **i18next**
+- **React Hook Form**
+
+## 🚀 Getting Started
+
+Clone the repository and navigate to the project directory:
+
+```bash
+git clone <repository-url>
+cd restaurant-uni
+npm install
+```
+
+Start the development server:
+
+```bash
+npm run dev
+```
+
+Then open the local URL displayed in your terminal.
+
+## 📦 Production Build
+
+Build the application for production:
+
+```bash
+npm run build
+```
+
+Preview the production build locally:
+
+```bash
+npm run preview
+```
+
+Run the linter:
+
+```bash
+npm run lint
+```
+
+## 🌍 Localization
+
+Restaurant Uni supports:
+
+- 🇺🇸 English (LTR)
+- 🇮🇷 Persian (RTL)
+
+The interface adapts to the selected language to provide a localized browsing experience.
+
+## 🧠 Recommendations
+
+Restaurant Uni includes a lightweight, locally implemented recommendation system that learns from menu views and cart interactions to suggest relevant dishes based on user preferences.
+
+No external AI API is required for this recommendation logic.
+
+## 🗺️ Roadmap
+
+- 🔑 Enhanced authentication and user accounts
+- ❤️ Favorites and saved dishes
+- 🧾 Checkout flow and order management
+- ♿ Accessibility improvements
+- 🚀 Production deployment
+
+## 📄 License
+
+This project was developed for educational and learning purposes as a university project.
+
+---
+
+### 🍽️ Restaurant Uni
+
+**Discover your taste. Explore the menu. Enjoy every bite.**
+
+Developed by **Mohammad Saleh Abbasi**

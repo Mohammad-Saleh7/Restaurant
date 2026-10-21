@@ -1,4 +1,5 @@
 // src/components/AIRecommendations.tsx
+import type { TFunction } from "i18next";
 import React, { useMemo } from "react";
 import { Box, Chip, Divider, Stack, Typography, Button } from "@mui/material";
 import AutoAwesomeRoundedIcon from "@mui/icons-material/AutoAwesomeRounded";
@@ -13,7 +14,7 @@ import {
 } from "../utils/aiTaste";
 import MenuCard from "./Cards/MenuCard";
 
-function fmtReason(reason: string, lang: Lang, t: any) {
+function fmtReason(reason: string, lang: Lang, t: TFunction) {
   // cat:xxx or tag:yyy
   if (reason.startsWith("cat:")) return t("ai.reasonCategory");
   if (reason.startsWith("tag:")) {

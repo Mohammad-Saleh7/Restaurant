@@ -13,26 +13,18 @@ import {
 import HeaderMenu from "../components/Headers/HeaderMenu";
 import { t } from "i18next";
 import MenuCard from "../components/Cards/MenuCard";
-import { useDispatch } from "react-redux";
+import { useAppDispatch } from "../redux/hooks";
 import { addToCart } from "../redux/cartSlice";
 
 import AIRecommendations from "../components/AIRecommendations";
 import type { MenuCategory, MenuItem } from "../utils/aiTaste";
 import { trackAddToCart, trackView } from "../utils/aiTaste";
 
-interface Item {
-  id: string;
-  name: { fa: string; en: string };
-  description: { fa: string; en: string };
-  price: number;
-  image: string;
-}
-
 const categories = restaurantData.restaurant.menu
   .categories as unknown as MenuCategory[];
 
-const allItems: Item[] = restaurantData.restaurant.menu.categories.flatMap(
-  (cat) => cat.items
+const allItems: MenuItem[] = restaurantData.restaurant.menu.categories.flatMap(
+  (cat) => cat.items,
 );
 
 const toPersianNumber = (num: number | string) =>
@@ -40,7 +32,7 @@ const toPersianNumber = (num: number | string) =>
     .toString()
     .replace(
       /\d/g,
-      (d) => ["۰", "۱", "۲", "۳", "۴", "۵", "۶", "۷", "۸", "۹"][+d]
+      (d) => ["۰", "۱", "۲", "۳", "۴", "۵", "۶", "۷", "۸", "۹"][+d],
     );
 
 const MenuItemPage: React.FC = () => {
@@ -48,14 +40,14 @@ const MenuItemPage: React.FC = () => {
   const { i18n } = useTranslation();
   const currentLang = i18n.language === "fa" ? "fa" : "en";
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
   const item = useMemo(() => allItems.find((x) => x.id === id), [id]);
 
   const category = useMemo(() => {
     return restaurantData.restaurant.menu.categories.find((cat) =>
-      cat.items.some((it) => it.id === id)
+      cat.items.some((it) => it.id === id),
     );
   }, [id]);
 
@@ -95,7 +87,7 @@ const MenuItemPage: React.FC = () => {
         nameEn: item.name.en,
         price: item.price,
         image: item.image,
-      })
+      }),
     );
 
     trackAddToCart(item.id, categoryId, item as unknown as MenuItem);

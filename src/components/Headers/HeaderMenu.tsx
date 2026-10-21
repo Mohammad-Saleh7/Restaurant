@@ -14,8 +14,7 @@ import LocalMallOutlinedIcon from "@mui/icons-material/LocalMallOutlined";
 import { t } from "i18next";
 import { Link, useNavigate } from "react-router-dom";
 
-import { useSelector, useDispatch } from "react-redux";
-import type { RootState } from "../../redux/store";
+import { useAppSelector, useAppDispatch } from "../../redux/hooks";
 
 import { setSearch } from "../../redux/searchSlice";
 
@@ -84,15 +83,15 @@ const SearchInput = styled(InputBase)(({ theme }) => ({
 }));
 
 export default function HeaderMenu() {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
-  const search = useSelector((state: RootState) => state.search.value);
-  const items = useSelector((state: RootState) => state.cart.items);
+  const search = useAppSelector((state) => state.search.value);
+  const items = useAppSelector((state) => state.cart.items);
 
   const count = React.useMemo(
     () => items.reduce((sum, item) => sum + (item.quantity || 1), 0),
-    [items]
+    [items],
   );
 
   return (

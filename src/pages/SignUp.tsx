@@ -12,7 +12,7 @@ import {
   Typography,
   InputAdornment,
 } from "@mui/material";
-import { useForm } from "react-hook-form";
+import { useForm, useWatch } from "react-hook-form";
 import { useNavigate, Link as RouterLink } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
@@ -45,14 +45,22 @@ const Signup: React.FC = () => {
     handleSubmit,
     reset,
     register,
-    watch,
+    control,
     formState: { errors, isSubmitting },
   } = useForm<SignupFormValues>({
-    defaultValues: { name: "", email: "", password: "", confirmPassword: "" },
+    defaultValues: {
+      name: "",
+      email: "",
+      password: "",
+      confirmPassword: "",
+    },
     mode: "onTouched",
   });
 
-  const password = watch("password");
+  const password = useWatch({
+    control,
+    name: "password",
+  });
 
   const onSubmit = (data: SignupFormValues) => {
     setServerMsg("");
@@ -148,8 +156,8 @@ const Signup: React.FC = () => {
                     errors.name?.type === "required"
                       ? t("signup.nameRequired") || "Name is required."
                       : errors.name?.type === "minLength"
-                      ? t("signup.nameMin") || "Name is too short."
-                      : ""
+                        ? t("signup.nameMin") || "Name is too short."
+                        : ""
                   }
                   {...register("name", {
                     required: true,
@@ -174,8 +182,8 @@ const Signup: React.FC = () => {
                     errors.email?.type === "required"
                       ? t("login.emailRequired") || "Email is required."
                       : errors.email?.type === "pattern"
-                      ? t("login.emailInvalid") || "Email is invalid."
-                      : ""
+                        ? t("login.emailInvalid") || "Email is invalid."
+                        : ""
                   }
                   {...register("email", {
                     required: true,
@@ -201,8 +209,9 @@ const Signup: React.FC = () => {
                     errors.password?.type === "required"
                       ? t("login.passwordRequired") || "Password is required."
                       : errors.password?.type === "pattern"
-                      ? t("login.passwordPattern") || "Password must be strong."
-                      : ""
+                        ? t("login.passwordPattern") ||
+                          "Password must be strong."
+                        : ""
                   }
                   {...register("password", {
                     required: true,
@@ -243,8 +252,9 @@ const Signup: React.FC = () => {
                     errors.confirmPassword?.type === "required"
                       ? t("signup.confirmRequired") || "Confirm your password."
                       : errors.confirmPassword?.type === "validate"
-                      ? t("signup.confirmMismatch") || "Passwords do not match."
-                      : ""
+                        ? t("signup.confirmMismatch") ||
+                          "Passwords do not match."
+                        : ""
                   }
                   {...register("confirmPassword", {
                     required: true,

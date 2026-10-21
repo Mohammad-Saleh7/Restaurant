@@ -1,11 +1,10 @@
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
-import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import { Box, Button, CardActions } from "@mui/material";
 import { t } from "i18next";
 import { Link } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useAppDispatch } from "../../redux/hooks";
 import { addToCart } from "../../redux/cartSlice";
 import i18n from "../../i18n";
 
@@ -32,7 +31,7 @@ export default function MenuCard({
   nameEn,
   id,
 }: MenuCardProps) {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const currentLang: "fa" | "en" = i18n.language === "fa" ? "fa" : "en";
 
   function normalizePrice(raw: number | string): number {
@@ -40,7 +39,7 @@ export default function MenuCard({
 
     const persianDigits = "۰۱۲۳۴۵۶۷۸۹";
     let normalized = raw.replace(/[۰-۹]/g, (d) =>
-      persianDigits.indexOf(d).toString()
+      persianDigits.indexOf(d).toString(),
     );
 
     normalized = normalized.replace(/[^\d.-]/g, "");
@@ -56,7 +55,7 @@ export default function MenuCard({
       .toString()
       .replace(
         /\d/g,
-        (d) => ["۰", "۱", "۲", "۳", "۴", "۵", "۶", "۷", "۸", "۹"][parseInt(d)]
+        (d) => ["۰", "۱", "۲", "۳", "۴", "۵", "۶", "۷", "۸", "۹"][parseInt(d)],
       );
   }
 
@@ -73,7 +72,7 @@ export default function MenuCard({
         nameEn,
         price: priceRial,
         image,
-      })
+      }),
     );
   };
 
@@ -86,18 +85,58 @@ export default function MenuCard({
           width: "100%",
           maxWidth: 250,
           height: "100%",
+          display: "flex",
+          flexDirection: "column",
         }}
       >
-        <CardMedia
-          component="img"
-          image={image}
-          alt={nameEn}
+        <Box
           sx={{
-            objectFit: "contain",
+            position: "relative",
             width: "100%",
-            height: { xs: 180, sm: 200, md: 220, lg: 250 },
+            overflow: "hidden",
+            isolation: "isolate",
+            display: "grid",
+            bgcolor: "action.hover",
           }}
-        />
+        >
+          <Box
+            component="img"
+            src={image}
+            alt=""
+            aria-hidden
+            sx={{
+              position: "absolute",
+              inset: 0,
+              width: "100%",
+              height: "100%",
+              objectFit: "cover",
+              filter: "blur(20px) brightness(0.8)",
+              transform: "scale(1.15)",
+              zIndex: -1,
+              pointerEvents: "none",
+              userSelect: "none",
+            }}
+          />
+
+          <Box
+            component="img"
+            src={image}
+            alt={nameEn}
+            loading="lazy"
+            decoding="async"
+            sx={{
+              gridArea: "1 / 1",
+              display: "block",
+              width: "100%",
+              height: "auto",
+              minHeight: { xs: 160, sm: 180 },
+              maxHeight: { xs: 220, sm: 240, md: 260, lg: 280 },
+              objectFit: "contain",
+              objectPosition: "center",
+              margin: "0 auto",
+            }}
+          />
+        </Box>
 
         <CardContent
           sx={(theme) => ({
@@ -108,7 +147,7 @@ export default function MenuCard({
               theme.palette.mode === "dark"
                 ? "background.darkPaper"
                 : "background.default",
-            height: "100px",
+            minHeight: 100,
             color:
               theme.palette.mode === "dark"
                 ? "text.primary"
@@ -154,11 +193,14 @@ export default function MenuCard({
                 ? "background.darkPaper"
                 : "background.default",
             mt: "auto",
+            pt: 2,
             display: "flex",
             gap: 1,
           })}
         >
           <Button
+            component={Link}
+            to={`/menu/${id}`}
             variant="contained"
             sx={(theme) => ({
               width: 120,
@@ -173,19 +215,12 @@ export default function MenuCard({
                   ? "background.default"
                   : "text.lightPrimary",
               height: 36,
+              color: "#E7F2EF",
+              fontWeight: "bold",
+              fontSize: 13,
             })}
           >
-            <Link
-              to={`/menu/${id}`}
-              style={{
-                textDecoration: "none",
-                color: "#E7F2EF",
-                fontWeight: "bold",
-                fontSize: 13,
-              }}
-            >
-              {t("button.viewDetails")}
-            </Link>
+            {t("button.viewDetails")}
           </Button>
 
           <Button
